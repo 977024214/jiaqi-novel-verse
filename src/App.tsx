@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import Browse from "./pages/Browse";
 import NovelDetail from "./pages/NovelDetail";
 import Reader from "./pages/Reader";
+import Rankings from "./pages/Rankings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -23,7 +24,7 @@ const App = () => (
           <Route path="/browse" element={<Browse />} />
           <Route path="/novel/:id" element={<NovelDetail />} />
           <Route path="/novel/:novelId/chapter/:chapterId" element={<Reader />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="/rankings" element={<Rankings />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

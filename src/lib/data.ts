@@ -1,4 +1,3 @@
-
 export interface Novel {
   id: string;
   title: string;
@@ -11,6 +10,7 @@ export interface Novel {
   viewCount: number;
   chapters: Chapter[];
   isFeatured?: boolean;
+  recommendCount: number;
 }
 
 export interface Chapter {
@@ -36,7 +36,6 @@ export const categories = [
   { id: '10', name: '古言', count: 721 }
 ];
 
-// Sample content for a chapter
 const sampleChapterContent = `
 # 第一章：命运的开始
 
@@ -67,7 +66,6 @@ const sampleChapterContent = `
 但有时候，一枚棋子也能改变整个棋局。
 `;
 
-// Generate chapters for a novel
 const generateChapters = (novelId: string, count: number): Chapter[] => {
   return Array.from({ length: count }).map((_, index) => ({
     id: `${novelId}-chapter-${index + 1}`,
@@ -92,7 +90,8 @@ export const novels: Novel[] = [
     updatedAt: new Date().toISOString(),
     viewCount: 15780950,
     chapters: [],
-    isFeatured: true
+    isFeatured: true,
+    recommendCount: 1234
   },
   {
     id: '2',
@@ -104,7 +103,8 @@ export const novels: Novel[] = [
     status: 'ongoing',
     updatedAt: new Date(Date.now() - 2 * 86400000).toISOString(),
     viewCount: 12567432,
-    chapters: []
+    chapters: [],
+    recommendCount: 987
   },
   {
     id: '3',
@@ -116,7 +116,8 @@ export const novels: Novel[] = [
     status: 'ongoing',
     updatedAt: new Date(Date.now() - 1 * 86400000).toISOString(),
     viewCount: 9876543,
-    chapters: []
+    chapters: [],
+    recommendCount: 5678
   },
   {
     id: '4',
@@ -129,7 +130,8 @@ export const novels: Novel[] = [
     updatedAt: new Date(Date.now() - 10 * 86400000).toISOString(),
     viewCount: 20156789,
     chapters: [],
-    isFeatured: true
+    isFeatured: true,
+    recommendCount: 3456
   },
   {
     id: '5',
@@ -141,7 +143,8 @@ export const novels: Novel[] = [
     status: 'ongoing',
     updatedAt: new Date(Date.now() - 5 * 86400000).toISOString(),
     viewCount: 7865432,
-    chapters: []
+    chapters: [],
+    recommendCount: 7890
   },
   {
     id: '6',
@@ -153,7 +156,8 @@ export const novels: Novel[] = [
     status: 'ongoing',
     updatedAt: new Date(Date.now() - 3 * 86400000).toISOString(),
     viewCount: 6543219,
-    chapters: []
+    chapters: [],
+    recommendCount: 12345
   },
   {
     id: '7',
@@ -165,7 +169,8 @@ export const novels: Novel[] = [
     status: 'completed',
     updatedAt: new Date(Date.now() - 30 * 86400000).toISOString(),
     viewCount: 8765432,
-    chapters: []
+    chapters: [],
+    recommendCount: 65432
   },
   {
     id: '8',
@@ -177,7 +182,8 @@ export const novels: Novel[] = [
     status: 'ongoing',
     updatedAt: new Date(Date.now() - 7 * 86400000).toISOString(),
     viewCount: 4567890,
-    chapters: []
+    chapters: [],
+    recommendCount: 98765
   },
   {
     id: '9',
@@ -189,7 +195,8 @@ export const novels: Novel[] = [
     status: 'ongoing',
     updatedAt: new Date(Date.now() - 4 * 86400000).toISOString(),
     viewCount: 7654321,
-    chapters: []
+    chapters: [],
+    recommendCount: 32145
   },
   {
     id: '10',
@@ -202,16 +209,15 @@ export const novels: Novel[] = [
     updatedAt: new Date(Date.now() - 6 * 86400000).toISOString(),
     viewCount: 8765432,
     chapters: [],
-    isFeatured: true
+    isFeatured: true,
+    recommendCount: 54321
   }
 ];
 
-// Add chapters to each novel
 novels.forEach(novel => {
   novel.chapters = generateChapters(novel.id, 20 + Math.floor(Math.random() * 80));
 });
 
-// Helper functions to get novel data
 export const getNovelById = (id: string): Novel | undefined => {
   return novels.find(novel => novel.id === id);
 };
@@ -240,4 +246,8 @@ export const getNovelsInCategory = (categoryId: string): Novel[] => {
   const category = categories.find(c => c.id === categoryId);
   if (!category) return [];
   return novels.filter(novel => novel.categories.includes(category.name));
+};
+
+export const getRecommendedNovels = (limit: number = 10): Novel[] => {
+  return [...novels].sort((a, b) => b.recommendCount - a.recommendCount).slice(0, limit);
 };
