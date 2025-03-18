@@ -4,6 +4,11 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { getNovelById, getChapterById } from '@/lib/data';
 import { ArrowLeft, ArrowRight, Settings, Home, List, Bookmark } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
+import { useUserStore } from '@/lib/store';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { ReaderSettings } from '@/components/ReaderSettings';
+import { Button } from '@/components/ui/button';
+import { useTheme } from 'next-themes';
 
 const Reader = () => {
   const { novelId, chapterId } = useParams<{ novelId: string, chapterId: string }>();
@@ -14,7 +19,8 @@ const Reader = () => {
     novelId && chapterId ? getChapterById(novelId, chapterId) : undefined
   );
   
-  const [fontSize, setFontSize] = useState<number>(18); // Default font size
+  const { preferences, setReadingProgress, addRecentNovel } = useUserStore();
+  const { theme } = useTheme();
   const [showControls, setShowControls] = useState<boolean>(true);
   const [lastScrollY, setLastScrollY] = useState<number>(0);
   
@@ -42,10 +48,18 @@ const Reader = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [lastScrollY]);
   
-  // Change font size
-  const changeFontSize = (delta: number) => {
-    setFontSize(prev => Math.min(Math.max(prev + delta, 14), 24));
-  };
+  // Update reading progress
+  useEffect(() => {
+    if (novelId && chapterId) {
+      setReadingProgress({
+        novelId,
+        chapterId,
+        scrollPosition: window.scrollY,
+        lastRead: new Date().toISOString(),
+      });
+      addRecentNovel(novelId);
+    }
+  }, [novelId, chapterId, setReadingProgress, addRecentNovel]);
   
   // Navigate to chapter
   const goToChapter = (id: string | undefined) => {
@@ -77,7 +91,9 @@ const Reader = () => {
   }
   
   return (
-    <div className="min-h-screen bg-white page-transition">
+      <div className={`min-h-screen bg-background text-foreground page-transition ${
+        theme === 'dark' ? 'dark' : ''
+      }`}>
       {/* Top navigation - visible on scroll up */}
       <header 
         className={`fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm border-b border-gray-100 shadow-sm transition-transform duration-300 ${
