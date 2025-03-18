@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Search, Menu, X, BookOpen } from 'lucide-react';
+import { ThemeToggle } from './ThemeToggle';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -67,6 +68,7 @@ const Navbar = () => {
 
           {/* Search and Menu Button */}
           <div className="flex items-center space-x-3">
+            <ThemeToggle />
             <form onSubmit={handleSearch} className="hidden md:flex relative">
               <input
                 type="text"
