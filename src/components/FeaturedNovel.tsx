@@ -10,7 +10,7 @@ interface FeaturedNovelProps {
 
 const FeaturedNovel: React.FC<FeaturedNovelProps> = ({ novel }) => {
   return (
-    <div className="relative overflow-hidden rounded-xl group">
+    <div className="relative overflow-hidden rounded-sm group qd-card">
       {/* Background image with overlay gradient */}
       <div className="absolute inset-0 z-0">
         <img 
@@ -23,12 +23,12 @@ const FeaturedNovel: React.FC<FeaturedNovelProps> = ({ novel }) => {
       
       <div className="relative z-10 h-full flex flex-col justify-end p-6 sm:p-8">
         <div className="flex items-center space-x-2 mb-2">
-          <span className="bg-novel-accent/90 text-white px-3 py-1 rounded-full text-xs font-medium flex items-center">
+          <span className="bg-[var(--qd-primary)] text-white px-3 py-1 rounded-sm text-xs font-medium flex items-center">
             <Star size={12} className="mr-1" />
             精选推荐
           </span>
           {novel.categories.map((category, index) => (
-            <span key={index} className="bg-white/20 backdrop-blur-sm text-white px-2 py-0.5 rounded-full text-xs">
+            <span key={index} className="bg-white/20 backdrop-blur-sm text-white px-2 py-0.5 rounded-sm text-xs">
               {category}
             </span>
           ))}
@@ -50,7 +50,7 @@ const FeaturedNovel: React.FC<FeaturedNovelProps> = ({ novel }) => {
           
           <Link 
             to={`/novel/${novel.id}`}
-            className="flex items-center space-x-1 bg-white/90 hover:bg-white text-gray-900 px-4 py-2 rounded-full text-sm font-medium transition-colors group-hover:shadow-lg"
+            className="qd-button qd-button-primary"
           >
             <BookOpen size={16} />
             <span>开始阅读</span>
