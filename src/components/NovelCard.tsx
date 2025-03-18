@@ -1,61 +1,75 @@
-
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Eye } from 'lucide-react';
-import { Novel } from '@/lib/data';
+import { Link } from "react-router-dom";
+import { Novel } from "@/lib/types";
+import { formatNumber, getStatusColor } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
+import { Eye, ThumbsUp, BookOpen } from "lucide-react";
 
 interface NovelCardProps {
   novel: Novel;
-  className?: string;
+  showStats?: boolean;
 }
 
-const NovelCard: React.FC<NovelCardProps> = ({ novel, className = '' }) => {
-  // Format view count
-  const formatViewCount = (count: number): string => {
-    if (count >= 1000000) {
-      return (count / 1000000).toFixed(1) + 'M';
-    } else if (count >= 1000) {
-      return (count / 1000).toFixed(1) + 'K';
-    }
-    return count.toString();
-  };
-
+export function NovelCard({ novel, showStats = true }: NovelCardProps) {
   return (
-    <Link 
-      to={`/novel/${novel.id}`} 
-      className={`qd-card group p-3 ${className}`}
-    >
-      <div className="relative aspect-[3/4] overflow-hidden rounded-sm mb-3">
-        <img 
-          src={novel.cover} 
-          alt={novel.title} 
-          loading="lazy"
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+    <div className="group bg-card rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+      {/* 封面图 */}
+      <Link to={`/novel/${novel.id}`} className="block relative pt-[125%]">
+        <img
+          src={novel.cover}
+          alt={novel.title}
+          className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
-        <div className="absolute top-2 right-2 flex items-center bg-black/60 text-white rounded-sm px-2 py-0.5 text-xs backdrop-blur-sm">
-          <Eye size={12} className="mr-1" />
-          <span>{formatViewCount(novel.viewCount)}</span>
+        {/* 状态标签 */}
+        <span
+          className={`absolute top-2 right-2 px-2 py-1 text-xs rounded ${getStatusColor(
+            novel.status
+          )} bg-black/60`}
+        >
+          {novel.status}
+        </span>
+      </Link>
+
+      {/* 信息区域 */}
+      <div className="p-3">
+        <Link
+          to={`/novel/${novel.id}`}
+          className="block font-medium text-foreground hover:text-primary truncate mb-1"
+        >
+          {novel.title}
+        </Link>
+        <div className="text-sm text-muted-foreground mb-2">
+          <span>{novel.author}</span>
+          <span className="mx-2">·</span>
+          <span>{novel.category}</span>
         </div>
-        
-        {novel.status === 'completed' && (
-          <div className="absolute top-2 left-2 bg-[var(--qd-primary)] text-white text-xs px-2 py-0.5 rounded-sm">
-            已完结
+
+        {/* 标签 */}
+        <div className="flex flex-wrap gap-1 mb-2">
+          {novel.tags.map((tag) => (
+            <Badge key={tag} variant="secondary" className="text-xs">
+              {tag}
+            </Badge>
+          ))}
+        </div>
+
+        {/* 统计信息 */}
+        {showStats && (
+          <div className="flex items-center justify-between text-xs text-muted-foreground">
+            <div className="flex items-center">
+              <Eye className="w-3 h-3 mr-1" />
+              <span>{formatNumber(novel.views)}</span>
+            </div>
+            <div className="flex items-center">
+              <ThumbsUp className="w-3 h-3 mr-1" />
+              <span>{formatNumber(novel.recommendTickets)}</span>
+            </div>
+            <div className="flex items-center">
+              <BookOpen className="w-3 h-3 mr-1" />
+              <span>{formatNumber(novel.wordCount)}字</span>
+            </div>
           </div>
         )}
       </div>
-      <div className="space-y-1">
-        <h3 className="text-base font-bold leading-tight line-clamp-2 group-hover:text-[var(--qd-primary)] transition-colors">
-          {novel.title}
-        </h3>
-        <p className="text-sm text-[var(--qd-text-secondary)]">{novel.author}</p>
-        <div className="flex items-center space-x-2 text-xs text-[var(--qd-text-light)]">
-          {novel.categories.slice(0, 2).map((category, index) => (
-            <span key={index} className="qd-tag">{category}</span>
-          ))}
-        </div>
-      </div>
-    </Link>
+    </div>
   );
-};
-
-export default NovelCard;
+}
