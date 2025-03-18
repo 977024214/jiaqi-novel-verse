@@ -1,5 +1,6 @@
 
 import React, { useEffect } from 'react';
+import '@/lib/theme.css';
 import FeaturedNovel from '@/components/FeaturedNovel';
 import NovelCard from '@/components/NovelCard';
 import CategoryList from '@/components/CategoryList';
@@ -19,14 +20,14 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-novel-bg page-transition">
+    <div className="min-h-screen bg-[var(--qd-bg)] text-[var(--qd-text)] page-transition">
       <Navbar />
       
       {/* Main Content with padding for navbar */}
       <main className="pt-16">
         {/* Hero Section with Featured Novel */}
-        <section className="pt-8 pb-12 md:pt-12 md:pb-16">
-          <div className="novel-container">
+        <section className="pt-8 pb-12 md:pt-12 md:pb-16 bg-[var(--qd-card)]">
+          <div className="qd-container">
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {featuredNovels.map((novel, index) => (
                 <div 
@@ -41,23 +42,23 @@ const Index = () => {
         </section>
         
         {/* Category Grid */}
-        <section className="py-8">
-          <div className="novel-container">
+        <section className="py-8 bg-[var(--qd-card)]">
+          <div className="qd-container">
             <CategoryList />
           </div>
         </section>
         
         {/* Recent Updates Section */}
-        <section className="py-8">
-          <div className="novel-container">
+        <section className="py-8 bg-[var(--qd-card)] mt-4">
+          <div className="qd-container">
             <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center space-x-2">
-                <Clock size={20} className="text-novel-accent" />
-                <h2 className="text-xl font-medium">最近更新</h2>
+              <div className="qd-title">
+                <Clock size={20} className="mr-2" />
+                最近更新
               </div>
               <Link 
                 to="/browse" 
-                className="flex items-center text-sm text-novel-muted hover:text-novel-accent transition-colors"
+                className="qd-button qd-button-primary"
               >
                 查看更多
                 <ArrowRight size={16} className="ml-1" />
@@ -73,16 +74,16 @@ const Index = () => {
         </section>
         
         {/* Popular Novels Section */}
-        <section className="py-8 pb-16">
-          <div className="novel-container">
+        <section className="py-8 pb-16 bg-[var(--qd-card)] mt-4">
+          <div className="qd-container">
             <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center space-x-2">
-                <BarChart2 size={20} className="text-novel-accent" />
-                <h2 className="text-xl font-medium">热门小说</h2>
+              <div className="qd-title">
+                <BarChart2 size={20} className="mr-2" />
+                热门小说
               </div>
               <Link 
                 to="/rankings" 
-                className="flex items-center text-sm text-novel-muted hover:text-novel-accent transition-colors"
+                className="qd-button qd-button-primary"
               >
                 查看排行榜
                 <ArrowRight size={16} className="ml-1" />
@@ -98,9 +99,9 @@ const Index = () => {
         </section>
         
         {/* Footer */}
-        <footer className="py-6 bg-white border-t border-novel-border">
-          <div className="novel-container">
-            <div className="text-center text-sm text-novel-muted">
+        <footer className="py-6 bg-[var(--qd-card)] border-t border-[var(--qd-border)]">
+          <div className="qd-container">
+            <div className="text-center text-sm text-[var(--qd-text-light)]">
               <p>&copy; {new Date().getFullYear()} 杰奇小说. 版权所有.</p>
             </div>
           </div>
