@@ -1,7 +1,8 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { ThemeProvider } from "@/components/ThemeProvider";
+import { useThemeStore } from "@/lib/theme";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
@@ -11,11 +12,16 @@ import Reader from "./pages/Reader";
 import Rankings from "./pages/Rankings";
 import NotFound from "./pages/NotFound";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient(  );
+};
 
-const App = () => (
+const App = () => {
+  const theme = useThemeStore((state) => state.theme);
+  
+  return (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
+    <ThemeProvider theme={theme}>
+      <TooltipProvider>
       <Toaster />
       <Sonner />
       <BrowserRouter>
@@ -28,7 +34,8 @@ const App = () => (
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
-    </TooltipProvider>
+      </TooltipProvider>
+    </ThemeProvider>
   </QueryClientProvider>
 );
 
