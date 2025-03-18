@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -13,7 +14,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 222.2 47.4% 11.2%;
+    --primary: 221 83% 53%;
     --primary-foreground: 210 40% 98%;
 
     --secondary: 210 40% 96.1%;
@@ -33,22 +34,6 @@
     --ring: 222.2 84% 4.9%;
 
     --radius: 0.5rem;
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
   .dark {
@@ -79,14 +64,6 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
 
@@ -96,6 +73,104 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-novel-bg text-foreground font-sans antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif tracking-tight;
+  }
+
+  h1 {
+    @apply text-4xl font-medium lg:text-5xl;
+  }
+
+  h2 {
+    @apply text-3xl font-medium lg:text-4xl;
+  }
+
+  h3 {
+    @apply text-2xl font-medium lg:text-3xl;
+  }
+
+  h4 {
+    @apply text-xl font-medium lg:text-2xl;
+  }
+
+  h5 {
+    @apply text-lg font-medium lg:text-xl;
+  }
+
+  h6 {
+    @apply text-base font-medium lg:text-lg;
+  }
+
+  p {
+    @apply leading-relaxed;
+  }
+}
+
+/* Custom styles */
+@layer components {
+  .novel-container {
+    @apply w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .novel-grid {
+    @apply grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6;
+  }
+
+  .novel-card {
+    @apply relative overflow-hidden rounded-lg bg-white shadow-sm transition-all duration-300 hover:shadow-md;
+  }
+
+  .novel-card-cover {
+    @apply aspect-[2/3] overflow-hidden bg-gray-100;
+  }
+
+  .novel-card-info {
+    @apply p-3;
+  }
+
+  .novel-card-title {
+    @apply line-clamp-2 text-sm font-medium;
+  }
+
+  .novel-card-author {
+    @apply mt-1 text-xs text-novel-muted;
+  }
+
+  .novel-cover-lg {
+    @apply aspect-[2/3] overflow-hidden rounded-lg shadow-md;
+  }
+
+  .novel-chip {
+    @apply inline-flex items-center rounded-full bg-novel-highlight px-2.5 py-0.5 text-xs text-novel-accent;
+  }
+
+  .page-transition {
+    @apply animate-fade-in;
+  }
+
+  /* Reading experience */
+  .reader-container {
+    @apply max-w-3xl mx-auto px-4 py-16 sm:px-6 lg:px-8;
+  }
+
+  .reader-content {
+    @apply prose prose-lg mx-auto;
+  }
+
+  .reader-controls {
+    @apply fixed bottom-4 left-0 right-0 mx-auto flex max-w-sm items-center justify-between rounded-full bg-white/90 px-4 py-2 shadow-lg backdrop-blur-sm;
+  }
+  
+  /* Glass effect for components */
+  .glass {
+    @apply bg-white/80 backdrop-blur-sm border border-white/20;
+  }
+
+  /* Hover effects for interactive elements */
+  .hover-lift {
+    @apply transition-transform duration-300 hover:-translate-y-1;
   }
 }
